@@ -9,10 +9,10 @@ import propTypes from 'prop-types';
 export default function Congrats(props) {
     if(props.success){
         return (
-            <div data-test='component-congrats' >
-                <span data-test='message-congrats'>
+            <div data-test='component-congrats' className='alert alert-success'>
+                <h3 data-test='message-congrats'>
                     Congratulations! you guessed the word.
-                </span>
+                </h3    >
             </div>
         )
     }
