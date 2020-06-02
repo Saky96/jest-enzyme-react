@@ -1,6 +1,8 @@
+import { getLetterMatchCount } from '../../helpers';
+
 export const actionTypes = {
-    CORRECT_GUESS: 'CORRECT_GUESS',
-    GUESS_WORD: 'GUESS_WORD'
+	CORRECT_GUESS: 'CORRECT_GUESS',
+	GUESS_WORD: 'GUESS_WORD'
 }
 
 // /**
@@ -13,12 +15,24 @@ export const actionTypes = {
 
 /**
  * Returns Redux Thunk function that dispatches `GUESS_WORD` action and conditionally  `CORRECT_GUESS` action
- * @function guessWord
- * @param {string} guessWord - Guessed word 
+ * @function guessedWord
+ * @param {string} guessedWord - Guessed word 
  * @returns {function} - Redux thunk function.
  */
-export const guessWord = (guessWord) => {
-    return function(dispatch, getState){
+export const guessWord = (guessedWord) => {
+	return function (dispatch, getState) {
+		const secretWord = getState().secretWord;
+		const letterMatchCount = getLetterMatchCount(guessedWord, secretWord)
 
-    }
+		dispatch({
+			type: actionTypes.GUESS_WORD,
+			payload: { guessedWord, letterMatchCount }
+		})
+
+		if (guessedWord === secretWord) {
+			dispatch({		
+				type: actionTypes.CORRECT_GUESS
+			})
+		}
+	}
 }
