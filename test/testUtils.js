@@ -1,15 +1,19 @@
 import checkPropTypes from 'check-prop-types';
 import rootReducer from '../src/jotoApp/reducers';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+
+import { middlewares } from '../src/jotoApp/configureStore';
 
 /**
- * 
+ * Creates a testing store with imported reducers and middlewares.
+ * globals: rootReducer, middlewares
  * @param {object} initialState - initial state for store
  * @function storeFactory
  * @returns {Store} - Redux store. 
  */
 export const storeFactory = (initialState) => {
-    return createStore(rootReducer, initialState)
+    const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore)
+    return createStoreWithMiddleware(rootReducer, initialState);
 }
 
 /**
