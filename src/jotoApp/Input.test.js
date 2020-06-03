@@ -3,7 +3,6 @@ import {shallow} from 'enzyme'
 
 import Input from './Input';
 import { findByTestAttr, checkProps, storeFactory } from '../../test/testUtils';
-import { guessWord } from './actions';
 
 const setup = (initialState ={}) => {
     const store = storeFactory(initialState);
