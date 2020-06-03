@@ -3,6 +3,7 @@ import {shallow} from 'enzyme'
 
 import Input from './Input';
 import { findByTestAttr, checkProps, storeFactory } from '../../test/testUtils';
+import { guessWord } from './actions';
 
 const setup = (initialState ={}) => {
     const store = storeFactory(initialState);
@@ -55,6 +56,17 @@ describe('render', () => {
     }); 
 });
 
-describe('update state.', () => {
-        
+describe('Redux props', () => {
+    test('should get success piece of state as prop', () => {
+        const success = true;
+        const wrapper = setup({success});
+        const successProp = wrapper.instance().props.success;
+        expect(successProp).toBe(success)
+    });
+
+    test('should check `guessWord` action creator is a function', () => {
+        const wrapper = setup();
+        const guessWordProp = wrapper.instance().props.guessWord;
+        expect(guessWordProp).toBeInstanceOf(Function)
+    });
 });
