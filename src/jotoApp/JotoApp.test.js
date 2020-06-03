@@ -3,7 +3,7 @@ import {shallow} from 'enzyme'
 
 import Input from './Input';
 import { storeFactory } from '../../test/testUtils';
-import JotoApp from './JotoApp';
+import JotoApp, {UnConnectedJotoApp} from './JotoApp';
 
 const setup = (initialState = {}) => {
     const store = storeFactory(initialState)
@@ -38,5 +38,26 @@ describe('Redux props', () => {
         const wrapper = setup();
         const getSecretWordProp = wrapper.instance().props.getSecretWord;
         expect(getSecretWordProp).toBeInstanceOf(Function)
+    });
+
+    test('should `getSecretWord` runs on App mount', () => {
+        const getSecretWordMock = jest.fn();
+
+        const props = {
+            getSecretWord: getSecretWordMock,
+            success: false,
+            guessedWords: [] 
+        }
+
+        // set up the app component with getSecretWordMock as the getSecretWord prop
+        const wrapper = shallow(<UnConnectedJotoApp {...props} />)
+
+        //run lifecycle method
+        wrapper.instance().componentDidMount()
+
+        //Check to see if mock ran
+        const getSecretWordCallCount = getSecretWordMock.mock.calls.length;
+
+        expect(getSecretWordCallCount).toBe(1);
     });
 });
